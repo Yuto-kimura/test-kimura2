@@ -28,7 +28,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
 app.layout = html.Div(children=[
-    html.H2(children='pythonによるwebすクレーピング〜アプリケーション編'),
+    html.H2(children='pythonによるwebスクレーピング〜アプリケーション編'),
     html.Div(children=[
         dcc.Graph(
             id='subscribers-graph',
