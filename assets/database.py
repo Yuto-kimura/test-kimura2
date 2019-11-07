@@ -6,7 +6,7 @@ from sqlalchemy.ext.declarative import declarative_base
 import datetime
 import os
 import pandas as pd
-
+# os.environ.get('DATABASE_URL') or
 databese_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data.db')
 engine = create_engine(os.environ.get('DATABASE_URL') or 'sqlite:///' + databese_file, convert_unicode=True , echo=True)
 db_session = scoped_session(
@@ -23,12 +23,14 @@ def init_db():
     import assets.models
     Base.metadata.create_all(bind=engine)
 
+
 def read_data():
     from assets import models
     df = pd.read_csv('assets/data.csv')
-    for index, _df in df.iterrows():
-    #     date型への変更
-        date = datetime.datetime.strptime(_df['date'], '%Y/%m/%d').date()
-        row = models.Data(date=date, subscribers=_df['subscribers'], reviews=_df['reviews'])
+
+    for index,_df in df.iterrows():
+    #     date型に変更する
+        date = datetime.datetime.strptime(_df['date'],'%Y/%m/%d').date()
+        row=models.Data(date=date,subscribers=_df['subscribers'],reviews=_df['reviews'])
         db_session.add(row)
     db_session.commit()
